@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Helpdesk Ayip's</title>
+  <style>
+    /* --- Running text marquee di atas --- */
+    .marquee-container {
+      width: 100%;
+      background-color: #3498db;
+      color: white;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0.7rem 1rem;
+      font-weight: 700;
+      font-size: 1rem;
+      user-select: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+    }
+
+    .marquee-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 35s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Padding atas agar konten tidak tertutup marquee */
+    body {
+      padding-top: 2.5rem; /* tinggi marquee + jarak */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Mode gelap */
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+
+    /* Animasi fade-in untuk card */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      padding: 2rem 2.5rem;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      transition: background 0.3s, color 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 05s forwards ease-out;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    body.dark .card {
+      background: #1e1e1e;
+      color: #ddd;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+
+    /* Animasi scale-up pada foto profil saat hover */
+    .photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #3498db;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .photo:hover,
+    .photo:focus {
+      transform: scale(1.05);
+      border-color: #1d6fa5;
+      outline: none;
+    }
+
+    body.dark .photo {
+      border-color: #58a6ff;
+    }
+
+    .name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #666;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s;
+    }
+
+    body.dark .title {
+      color: #aaa;
+    }
+
+    /* Daftar kontak */
+    .contact-list {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      color: #333;
+      transition: color 0.3s;
+    }
+
+    body.dark .contact-list li {
+      color: #ccc;
+    }
+
+    .contact-list svg {
+      width: 20px;
+      height: 20px;
+      fill: #3498db;
+      flex-shrink: 0;
+      transition: fill 0.3s;
+    }
+
+    body.dark .contact-list svg {
+      fill: #58a6ff;
+    }
+
+    /* Link sosial media */
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .social-links a {
+      text-decoration: none;
+      color: #3498db;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .social-links a:hover,
+    .social-links a:focus {
+      border-color: #3498db;
+      outline: none;
+      color: #1d6fa5;
+    }
+
+    body.dark .social-links a {
+      color: #58a6ff;
+    }
+
+    body.dark .social-links a:hover,
+    body.dark .social-links a:focus {
+      color: #a0c8ff;
+      border-color: #58a6ff;
+    }
+
+    /* Tombol WhatsApp */
+    .btn-group {
+      text-align: center;
+    }
+
+    #chat-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #25d366;
+      color: #fff;
+      font-weight: 700;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(37, 211, 102, 0.4);
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s ease;
+    }
+
+    #chat-whatsapp svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+      flex-shrink: 0;
+    }
+
+    #chat-whatsapp:hover,
+    #chat-whatsapp:focus {
+      background: #1ebe57;
+      box-shadow: 0 6px 10px rgba(30, 190, 87, 0.6);
+      outline: none;
+      transform: scale(1.05);
+    }
+
+    /* Tombol mode gelap dengan animasi pulse halus */
+    #dark-mode-toggle {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #3498db;
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.4rem;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.5);
+      transition: background 0.3s, box-shadow 0.3s;
+      user-select: none;
+      z-index: 10000;
+      animation: pulse 10s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 15px 5px rgba(52, 152, 219, 0.7);
+      }
+    }
+
+    #dark-mode-toggle:hover,
+    #dark-mode-toggle:focus {
+      background: #1d74c4;
+      outline: none;
+      box-shadow: 0 6px 12px rgba(29, 116, 196, 0.7);
+      animation: none;
+    }
+
+    body.dark #dark-mode-toggle {
+      background: #58a6ff;
+      color: #121212;
+      box-shadow: 0 4px 10px rgba(88, 166, 255, 0.7);
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    body.dark #dark-mode-toggle:hover,
+    body.dark #dark-mode-toggle:focus {
+      background: #3b7cd3;
+      box-shadow: 0 6px 12px rgba(59, 124, 211, 0.9);
+      animation: none;
+    }
+
+    /* Live clock */
+    #live-clock {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-family: monospace;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #3498db;
+      user-select: none;
+    }
+
+    body.dark #live-clock {
+      color: #58a6ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 400px) {
+      .card {
+        padding: 1.5rem 1.8rem;
+        max-width: 100%;
+      }
+
+      .photo {
+        width: 120px;
+        height: 120px;
+      }
+
+      #dark-mode-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Running text marquee paling atas -->
+  <div class="marquee-container" aria-label="Pesan selamat datang">
+    <div class="marquee-text" tabindex="0">
+      Hi! SELAMAT DATANG DI AYIP'S HELPDESK, Kami Sendiri Bisa Membantu Menyelesaikan Semua Permasalahan Yang Terjadi Pada Device Anda. Silahkan Klik Tombol Whatsapp Untuk Menyampaikan Masalah Anda ~ TERIMA KASIH SUDAH MEMPERCAYAI Kami SEBAGAI HELPDESK ANDA ~ • Hi! WELCOME TO AYIP'S HELPDESK, We Ourselves Can Help Solve All Problems That Occur On Your Device. Please Click The Whatsapp Button To Convey Your Problem ~ THANK YOU FOR TRUSTING US AS YOUR HELPDESK ~
+    </div>
+  </div>
+
+  <article class="card" role="main" aria-label="Kartu nama digital Ayip's Helpdesk Support">
+    <!-- Live clock -->
+    <div id="live-clock" aria-live="polite" aria-atomic="true" aria-label="Jam saat ini"></div>
+
+    <img src="https://i.postimg.cc/zfVCsJNT/IMG-20250607-WA0013.jpg" alt="Foto profil Ayip's" class="photo" tabindex="0" />
+    <h1 class="name">AYIP'S</h1>
+    <p class="title">HELPDESK SUPPORT</p>
+
+    <ul class="contact-list">
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6.62 10.79a15.054 15.054 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.21.49 2.53.76 3.88.76a1 1 0 011 1V20a1 1 0 01-1 1c-9.39 0-17-7.61-17-17a1 1 0 011-1h3.5a1 1 0 011 1c0 1.35.26 2.67.76 3.88a1 1 0 01-.21 1.11l-2.2 2.2z"/>
+        </svg>
+        <span>+62 857 6679 5914</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2v.01L12 13 4 6.01V6h16zM4 18v-9l8 7 8-7v9H4z"/>
+        </svg>
+        <span>Karawista01@gmail.com</span>
+      </li>
+    </ul>
+
+    <div class="social-links" role="navigation" aria-label="Tautan sosial media">
+      <a href="https://www.instagram.com/karawista11.1/profilecard/?igsh=Ynp0M2lyYmttcDUw" target="_blank" rel="noopener" aria-label="Instagram Ayip's">
+        Instagram
+      </a>
+      <a href="https://www.facebook.com/share/1G6M3oLaV4/" target="_blank" rel="noopener" aria-label="Facebook Ayip's">
+        Facebook
+      </a>
+      <a href="Mas-ayips/HELPDESK" target="_blank" rel="noopener" aria-label="Github Ayip's">
+        Github
+      </a>
+    </div>
+
+    <a id="chat-whatsapp" href="https://wa.me/6285766795914?text=Halo%20AYIP'S%20Saya%20Mengalami%20Sedikit%20Masalah%20Di%20Perangkat%20Saya." target="_blank" rel="noopener" aria-label="Chat Whatsapp ke Ayip's">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M20.52 3.48A11.82 11.82 0 0012 0C5.37 0 0 5.37 0 12a11.8 11.8 0 001.83 6.14L0 24l5.91-1.84a11.9 11.9 0 006.18 1.84c6.62 0 12-5.38 12-12a11.82 11.82 0 00-1.57-6.52zM12 21.5a9.5 9.5 0 01-4.79-1.34l-.34-.21-3.5 1.09 1.06-3.41-.22-.35A9.48 9.48 0 012.5 12 9.5 9.5 0 1112 21.5zm5.06-7.23c-.28-.14-1.67-.83-1.93-.92-.26-.1-.45-.14-.64.14-.19.27-.74.92-.91 1.11-.17.19-.34.21-.62.07-.28-.14-1.18-.44-2.24-1.38-.83-.74-1.39-1.66-1.55-1.93-.16-.27-.02-.42.12-.56.12-.12.28-.31.42-.46.14-.15.19-.25.28-.41.09-.17.04-.31-.02-.45-.07-.14-.64-1.54-.88-2.11-.23-.55-.46-.48-.64-.49l-.55-.01c-.19 0-.5.07-.76.37-.27.31-1.03 1.01-1.03 2.47 0 1.45 1.06 2.85 1.21 3.05.15.2 2.09 3.19 5.07 4.47.71.31 1.26.5 1.69.64.71.23 1.36.2 1.87.12.57-.1 1.67-.68 1.9-1.34.23-.66.23-1.23.16-1.34-.07-.11-.26-.17-.54-.31z"/>
+        </svg>
+        Chat Whatsapp
+      </a>
+    </div>
+  </article>
+
+  <button id="dark-mode-toggle" aria-label="Toggle mode gelap">🌙</button>
+
+  <script>
+    // Live clock
+    function updateClock() {
+      const clockEl = document.getElementById('live-clock');
+      const now = new Date();
+      clockEl.textContent = now.toLocaleTimeString('id-ID', { hour12: false });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Dark mode toggle
+    const toggleBtn = document.getElementById('dark-mode-toggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      // Ganti ikon bulan & matahari
+      if (document.body.classList.contains('dark')) {
+        toggleBtn.textContent = '☀️';
+      } else {
+        toggleBtn.textContent = '🌙';
+      }
+    });
+
+    // Animasi fade-in card sudah ditangani oleh CSS animation fadeInUp di class .card
+  </script>
+</body>
+</html>
